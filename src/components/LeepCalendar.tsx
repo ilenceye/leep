@@ -4,7 +4,7 @@ import { LeepDrawer } from "@/components/LeepDrawer";
 import { useLeepStore } from "@/hooks/useLeep";
 import { cn } from "@/lib/classnames";
 import { Calendar, CalendarDayButton } from "@/ui/calendar";
-import { endOfDay, format, isWithinInterval, startOfDay } from "date-fns";
+import { endOfDay, format, startOfDay } from "date-fns";
 
 export function LeepCalendar() {
   const leeps = useLeepStore((s) => s.leeps);
@@ -39,8 +39,6 @@ export function LeepCalendar() {
             const sleepTime = leeps.find((l) => l.date === dayStr)?.sleepTime;
             const sleepType = getSleepType(sleepTime);
 
-            const isInRange = isWithinInterval(day.date, { start, end });
-
             return (
               <CalendarDayButton
                 day={day}
@@ -49,7 +47,7 @@ export function LeepCalendar() {
                   "bg-green-200": sleepType === "early",
                   "bg-yellow-200": sleepType === "late",
                   "bg-red-200": sleepType === "night",
-                  "bg-muted": isInRange && sleepType === undefined,
+                  "bg-muted": !modifiers.disabled && sleepType === undefined,
                 })}
                 {...props}
               >
@@ -58,9 +56,11 @@ export function LeepCalendar() {
                 >
                   {children}
                 </span>
-                <span className="text-xs text-gray-600">
-                  {isInRange && (sleepTime ?? "--")}
-                </span>
+                {!modifiers.disabled && (
+                  <span className="text-xs text-gray-600">
+                    {sleepTime ?? "--"}
+                  </span>
+                )}
               </CalendarDayButton>
             );
           },
