@@ -4,13 +4,7 @@ import { LeepDrawer } from "@/components/LeepDrawer";
 import { useLeepStore } from "@/hooks/useLeep";
 import { cn } from "@/lib/classnames";
 import { Calendar, CalendarDayButton } from "@/ui/calendar";
-import {
-  endOfDay,
-  format,
-  isToday,
-  isWithinInterval,
-  startOfDay,
-} from "date-fns";
+import { endOfDay, format, isWithinInterval, startOfDay } from "date-fns";
 
 export function LeepCalendar() {
   const leeps = useLeepStore((s) => s.leeps);
@@ -40,7 +34,7 @@ export function LeepCalendar() {
         onSelect={handleSelect}
         weekStartsOn={1}
         components={{
-          DayButton: ({ children, day, className, ...props }) => {
+          DayButton: ({ children, day, modifiers, className, ...props }) => {
             const dayStr = format(day.date, "yyyy-MM-dd");
             const sleepTime = leeps.find((l) => l.date === dayStr)?.sleepTime;
             const sleepType = getSleepType(sleepTime);
@@ -50,6 +44,7 @@ export function LeepCalendar() {
             return (
               <CalendarDayButton
                 day={day}
+                modifiers={modifiers}
                 className={cn(className, "grid grid-rows-3 p-1.5", {
                   "bg-green-200": sleepType === "early",
                   "bg-yellow-200": sleepType === "late",
@@ -59,7 +54,7 @@ export function LeepCalendar() {
                 {...props}
               >
                 <span
-                  className={cn("row-span-2", isToday(day.date) && "font-bold")}
+                  className={cn("row-span-2", modifiers.today && "font-bold")}
                 >
                   {children}
                 </span>
