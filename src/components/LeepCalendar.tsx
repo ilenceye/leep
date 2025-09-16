@@ -4,7 +4,13 @@ import { LeepDrawer } from "@/components/LeepDrawer";
 import { useLeepStore } from "@/hooks/useLeep";
 import { cn } from "@/lib/classnames";
 import { Calendar, CalendarDayButton } from "@/ui/calendar";
-import { format, isToday, isWithinInterval, startOfDay } from "date-fns";
+import {
+  endOfDay,
+  format,
+  isToday,
+  isWithinInterval,
+  startOfDay,
+} from "date-fns";
 
 export function LeepCalendar() {
   const leeps = useLeepStore((s) => s.leeps);
@@ -13,7 +19,7 @@ export function LeepCalendar() {
   const setSelectedDate = useLeepStore((s) => s.setSelectedDate);
 
   const start = startOfDay(new Date("2025-09-06"));
-  const end = new Date(Date.now());
+  const end = endOfDay(new Date());
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -29,6 +35,7 @@ export function LeepCalendar() {
         mode="single"
         className="w-full p-0"
         required
+        disabled={{ before: start, after: end }}
         selected={selectedDate}
         onSelect={handleSelect}
         weekStartsOn={1}
