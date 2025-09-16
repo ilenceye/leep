@@ -1,64 +1,72 @@
 import { useState } from "react";
 
+import { LeepDrawer } from "@/components/LeepDrawer";
+import { useLeepStore } from "@/hooks/useLeep";
 import { cn } from "@/lib/classnames";
 import { Calendar, CalendarDayButton } from "@/ui/calendar";
 import { format, isToday, isWithinInterval, startOfDay } from "date-fns";
 
 export function LeepCalendar() {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const leeps = useLeepStore((s) => s.leeps);
+
+  const selectedDate = useLeepStore((s) => s.selectedDate);
+  const setSelectedDate = useLeepStore((s) => s.setSelectedDate);
 
   const start = startOfDay(new Date("2025-09-06"));
   const end = new Date(Date.now());
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const handleSelect = (date: Date) => {
+    setSelectedDate(date);
+    setIsDrawerOpen(true);
+  };
+
   return (
-    <Calendar
-      mode="single"
-      className="w-full p-0"
-      selected={date}
-      onSelect={setDate}
-      weekStartsOn={1}
-      components={{
-        DayButton: ({ children, day, className, ...props }) => {
-          const dayStr = format(day.date, "yyyy-MM-dd");
-          const sleepTime = FAKE_LEEPS[dayStr];
-          const sleepType = getSleepType(sleepTime);
+    <>
+      <LeepDrawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen} />
+      <Calendar
+        mode="single"
+        className="w-full p-0"
+        required
+        selected={selectedDate}
+        onSelect={handleSelect}
+        weekStartsOn={1}
+        components={{
+          DayButton: ({ children, day, className, ...props }) => {
+            const dayStr = format(day.date, "yyyy-MM-dd");
+            const sleepTime = leeps.find((l) => l.date === dayStr)?.sleepTime;
+            const sleepType = getSleepType(sleepTime);
 
-          const isInRange = isWithinInterval(day.date, { start, end });
+            const isInRange = isWithinInterval(day.date, { start, end });
 
-          return (
-            <CalendarDayButton
-              day={day}
-              className={cn(className, "grid grid-rows-3 p-1.5", {
-                "bg-green-200": sleepType === "early",
-                "bg-yellow-200": sleepType === "late",
-                "bg-red-200": sleepType === "night",
-                "bg-muted": isInRange && sleepType === undefined,
-              })}
-              {...props}
-            >
-              <span
-                className={cn("row-span-2", isToday(day.date) && "font-bold")}
+            return (
+              <CalendarDayButton
+                day={day}
+                className={cn(className, "grid grid-rows-3 p-1.5", {
+                  "bg-green-200": sleepType === "early",
+                  "bg-yellow-200": sleepType === "late",
+                  "bg-red-200": sleepType === "night",
+                  "bg-muted": isInRange && sleepType === undefined,
+                })}
+                {...props}
               >
-                {children}
-              </span>
-              <span className="text-xs text-gray-600">
-                {isInRange && (sleepTime ?? "--")}
-              </span>
-            </CalendarDayButton>
-          );
-        },
-      }}
-    />
+                <span
+                  className={cn("row-span-2", isToday(day.date) && "font-bold")}
+                >
+                  {children}
+                </span>
+                <span className="text-xs text-gray-600">
+                  {isInRange && (sleepTime ?? "--")}
+                </span>
+              </CalendarDayButton>
+            );
+          },
+        }}
+      />
+    </>
   );
 }
-
-const FAKE_LEEPS: Record<string, string> = {
-  "2025-09-07": "22:40",
-  "2025-09-09": "23:00",
-  "2025-09-10": "01:00",
-  "2025-09-11": "23:20",
-  "2025-09-12": "23:20",
-};
 
 const getSleepType = (time: string | undefined) => {
   if (!time) return;
