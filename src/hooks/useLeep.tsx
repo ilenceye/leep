@@ -12,7 +12,7 @@ type LeepStore = {
   //
   leeps: Leep[];
   createLeep: (leep: Leep) => void;
-  updateLeep: (id: string, changes: Pick<Leep, "sleepTime">) => void;
+  updateLeep: (id: string, changes: Pick<Leep, "sleepTime" | "note">) => void;
   //
   selectedDate: Date;
   setSelectedDate: (date: Date) => void;
