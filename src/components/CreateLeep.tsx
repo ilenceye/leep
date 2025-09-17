@@ -25,8 +25,9 @@ export function CreateLeep() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const time = formData.get("time") as string;
+    const note = (formData.get("note") as string).trim() || undefined;
     const id = window.crypto.randomUUID();
-    createLeep({ id, date: selectedDateStr, sleepTime: time });
+    createLeep({ id, date: selectedDateStr, sleepTime: time, note });
   };
 
   return (
@@ -42,12 +43,18 @@ export function CreateLeep() {
           <DrawerDescription className="sr-only"></DrawerDescription>
         </DrawerHeader>
         <form onSubmit={handleSubmit}>
-          <div className="px-4">
+          <div className="space-y-4 px-4">
             <Input
               name="time"
               type="time"
               className="text-center"
               defaultValue={defaultSleepTime}
+            />
+            <Input
+              name="note"
+              type="text"
+              placeholder="Note..."
+              autoComplete="off"
             />
           </div>
           <DrawerFooter>

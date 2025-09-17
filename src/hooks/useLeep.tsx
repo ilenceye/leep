@@ -5,6 +5,7 @@ type Leep = {
   id: string;
   date: string;
   sleepTime: string;
+  note?: string;
 };
 
 type LeepStore = {
