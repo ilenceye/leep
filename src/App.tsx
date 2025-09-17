@@ -1,5 +1,6 @@
 import { CreateLeep } from "@/components/CreateLeep";
 import { LeepCalendar } from "@/components/LeepCalendar";
+import { LeepCard } from "@/components/LeepCard";
 import { useLeepStore } from "@/hooks/useLeep";
 import { format } from "date-fns";
 
@@ -16,6 +17,11 @@ export default function App() {
           <h1 className="text-2xl font-bold">Leep</h1>
         </div>
         <LeepCalendar />
+        {existingLeep && (
+          <div className="mt-6">
+            <LeepCard leep={existingLeep} />
+          </div>
+        )}
         {!existingLeep && (
           <div className="mt-auto text-center">
             <CreateLeep />

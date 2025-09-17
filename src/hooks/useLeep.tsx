@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type Leep = {
+export type Leep = {
   id: string;
   date: string;
   sleepTime: string;
