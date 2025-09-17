@@ -8,48 +8,37 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
+  DrawerTrigger,
 } from "@/ui/drawer";
 import { Input } from "@/ui/input";
 import { format } from "date-fns";
+import { PlusIcon } from "lucide-react";
 
-export function LeepDrawer({
-  open,
-  onOpenChange,
-}: {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}) {
+export function CreateLeep() {
   const selectedDate = useLeepStore((s) => s.selectedDate);
-  const leeps = useLeepStore((s) => s.leeps);
   const createLeep = useLeepStore((s) => s.createLeep);
-  const updateLeep = useLeepStore((s) => s.updateLeep);
 
   const selectedDateStr = format(selectedDate, "yyyy-MM-dd");
-  const existingLeep = leeps.find((l) => l.date === selectedDateStr);
-  const sleepTime = existingLeep?.sleepTime || format(new Date(), "HH:mm");
+  const defaultSleepTime = format(new Date(), "HH:mm");
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const time = formData.get("time") as string;
-
-    if (!existingLeep) {
-      const id = window.crypto.randomUUID();
-      createLeep({ id, date: selectedDateStr, sleepTime: time });
-    } else {
-      updateLeep(existingLeep.id, { sleepTime: time });
-    }
-
-    onOpenChange(false);
+    const id = window.crypto.randomUUID();
+    createLeep({ id, date: selectedDateStr, sleepTime: time });
   };
 
   return (
-    <Drawer open={open} onOpenChange={onOpenChange}>
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button size="icon" className="size-10">
+          <PlusIcon className="size-6" />
+        </Button>
+      </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>
-            {existingLeep ? "Edit sleep time" : "Add sleep time"}
-          </DrawerTitle>
+          <DrawerTitle>Add</DrawerTitle>
           <DrawerDescription className="sr-only"></DrawerDescription>
         </DrawerHeader>
         <form onSubmit={handleSubmit}>
@@ -58,7 +47,7 @@ export function LeepDrawer({
               name="time"
               type="time"
               className="text-center"
-              defaultValue={sleepTime}
+              defaultValue={defaultSleepTime}
             />
           </div>
           <DrawerFooter>

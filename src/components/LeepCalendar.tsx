@@ -1,6 +1,3 @@
-import { useState } from "react";
-
-import { LeepDrawer } from "@/components/LeepDrawer";
 import { useLeepStore } from "@/hooks/useLeep";
 import { cn } from "@/lib/classnames";
 import { Calendar, CalendarDayButton } from "@/ui/calendar";
@@ -15,23 +12,15 @@ export function LeepCalendar() {
   const start = startOfDay(new Date("2025-09-06"));
   const end = endOfDay(new Date());
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const handleSelect = (date: Date) => {
-    setSelectedDate(date);
-    setIsDrawerOpen(true);
-  };
-
   return (
     <>
-      <LeepDrawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen} />
       <Calendar
         mode="single"
         className="w-full p-0"
         required
         disabled={{ before: start, after: end }}
         selected={selectedDate}
-        onSelect={handleSelect}
+        onSelect={setSelectedDate}
         weekStartsOn={1}
         components={{
           DayButton: ({ children, day, modifiers, className, ...props }) => {
