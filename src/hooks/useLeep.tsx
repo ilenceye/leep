@@ -35,6 +35,7 @@ export const useLeepStore = create<LeepStore>()(
     }),
     {
       name: "leep-store",
+      partialize: (state) => ({ leeps: state.leeps }),
     },
   ),
 );
