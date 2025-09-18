@@ -14,11 +14,8 @@ import { Input } from "@/ui/input";
 import { format } from "date-fns";
 import { PlusIcon } from "lucide-react";
 
-export function CreateLeep() {
-  const selectedDate = useLeepStore((s) => s.selectedDate);
+export function CreateLeep({ selectedDateStr }: { selectedDateStr: string }) {
   const createLeep = useLeepStore((s) => s.createLeep);
-
-  const selectedDateStr = format(selectedDate, "yyyy-MM-dd");
   const defaultSleepTime = format(new Date(), "HH:mm");
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {

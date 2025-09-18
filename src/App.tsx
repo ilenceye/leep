@@ -26,7 +26,7 @@ export default function App() {
         )}
         {!existingLeep && (
           <div className="mt-auto text-center">
-            <CreateLeep />
+            <CreateLeep selectedDateStr={selectedDateStr} />
           </div>
         )}
       </div>
