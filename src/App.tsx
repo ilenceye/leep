@@ -1,13 +1,16 @@
+import { useState } from "react";
+
 import { CreateLeep } from "@/components/CreateLeep";
 import { LeepCalendar } from "@/components/LeepCalendar";
 import { LeepCard } from "@/components/LeepCard";
 import { UpdateLeep } from "@/components/UpdateLeep";
-import { useLeepStore } from "@/hooks/useLeep";
+import { useLeep } from "@/hooks/useLeep";
 import { format } from "date-fns";
 
 export default function App() {
-  const selectedDate = useLeepStore((s) => s.selectedDate);
-  const leeps = useLeepStore((s) => s.leeps);
+  const { leeps, createLeep, updateLeep } = useLeep();
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   const selectedDateStr = format(selectedDate, "yyyy-MM-dd");
   const existingLeep = leeps.find((l) => l.date === selectedDateStr);
 
@@ -17,16 +20,23 @@ export default function App() {
         <div className="mb-6 text-center">
           <h1 className="text-2xl font-bold">Leep</h1>
         </div>
-        <LeepCalendar />
+        <LeepCalendar
+          leeps={leeps}
+          selectedDate={selectedDate}
+          onSelect={setSelectedDate}
+        />
         {existingLeep && (
           <div className="relative mt-6">
             <LeepCard leep={existingLeep} />
-            <UpdateLeep leep={existingLeep} />
+            <UpdateLeep leep={existingLeep} onUpdate={updateLeep} />
           </div>
         )}
         {!existingLeep && (
           <div className="mt-auto text-center">
-            <CreateLeep selectedDateStr={selectedDateStr} />
+            <CreateLeep
+              selectedDateStr={selectedDateStr}
+              onCreate={createLeep}
+            />
           </div>
         )}
       </div>

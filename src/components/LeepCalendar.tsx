@@ -1,14 +1,17 @@
-import { useLeepStore } from "@/hooks/useLeep";
+import type { Leep } from "@/hooks/useLeep";
 import { cn } from "@/lib/classnames";
 import { Calendar, CalendarDayButton } from "@/ui/calendar";
 import { endOfDay, format, startOfDay } from "date-fns";
 
-export function LeepCalendar() {
-  const leeps = useLeepStore((s) => s.leeps);
-
-  const selectedDate = useLeepStore((s) => s.selectedDate);
-  const setSelectedDate = useLeepStore((s) => s.setSelectedDate);
-
+export function LeepCalendar({
+  selectedDate,
+  onSelect,
+  leeps,
+}: {
+  selectedDate: Date;
+  onSelect: (selectedDate: Date) => void;
+  leeps: Leep[];
+}) {
   const start = startOfDay(new Date("2025-09-06"));
   const end = endOfDay(new Date());
 
@@ -20,7 +23,7 @@ export function LeepCalendar() {
         required
         disabled={{ before: start, after: end }}
         selected={selectedDate}
-        onSelect={setSelectedDate}
+        onSelect={onSelect}
         weekStartsOn={1}
         components={{
           DayButton: ({ children, day, modifiers, className, ...props }) => {

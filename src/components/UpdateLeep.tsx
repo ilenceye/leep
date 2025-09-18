@@ -1,4 +1,4 @@
-import { type Leep, useLeepStore } from "@/hooks/useLeep";
+import type { Leep, UpdateLeepFn } from "@/hooks/useLeep";
 import { Button } from "@/ui/button";
 import {
   Drawer,
@@ -12,15 +12,19 @@ import {
 } from "@/ui/drawer";
 import { Input } from "@/ui/input";
 
-export function UpdateLeep({ leep }: { leep: Leep }) {
-  const updateLeep = useLeepStore((s) => s.updateLeep);
-
+export function UpdateLeep({
+  leep,
+  onUpdate,
+}: {
+  leep: Leep;
+  onUpdate: UpdateLeepFn;
+}) {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const time = formData.get("time") as string;
     const note = (formData.get("note") as string).trim() || undefined;
-    updateLeep(leep.id, { sleepTime: time, note });
+    onUpdate(leep.id, { sleepTime: time, note });
   };
 
   return (
