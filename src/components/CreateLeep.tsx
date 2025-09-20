@@ -28,8 +28,7 @@ export function CreateLeep({
     const formData = new FormData(e.currentTarget);
     const time = formData.get("time") as string;
     const note = (formData.get("note") as string).trim() || undefined;
-    const id = window.crypto.randomUUID();
-    onCreate({ id, date: selectedDateStr, sleepTime: time, note });
+    onCreate({ date: selectedDateStr, sleepTime: time, note });
   };
 
   return (
