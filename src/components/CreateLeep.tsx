@@ -1,4 +1,4 @@
-import type { CreateLeepFn } from "@/hooks/useLeep";
+import type { CreateLeepFn } from "@/hooks/useLeepStore";
 import { Button } from "@/ui/button";
 import {
   Drawer,

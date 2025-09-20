@@ -1,4 +1,4 @@
-import type { UpdateLeepFn } from "@/hooks/useLeep";
+import type { UpdateLeepFn } from "@/hooks/useLeepStore";
 import type { Leep } from "@/types";
 import { Button } from "@/ui/button";
 import {
@@ -25,7 +25,7 @@ export function UpdateLeep({
     const formData = new FormData(e.currentTarget);
     const time = formData.get("time") as string;
     const note = (formData.get("note") as string).trim() || undefined;
-    onUpdate(leep.id, { sleepTime: time, note });
+    onUpdate(leep.date, { ...leep, sleepTime: time, note });
   };
 
   return (

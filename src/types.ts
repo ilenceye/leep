@@ -4,3 +4,5 @@ export type Leep = {
   sleepTime: string;
   note?: string;
 };
+
+export type LeepMap = Map<string, Leep>;

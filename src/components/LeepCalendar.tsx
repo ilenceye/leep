@@ -1,5 +1,5 @@
 import { cn } from "@/lib/classnames";
-import type { Leep } from "@/types";
+import type { LeepMap } from "@/types";
 import { Calendar, CalendarDayButton } from "@/ui/calendar";
 import { endOfDay, format, startOfDay } from "date-fns";
 
@@ -10,7 +10,7 @@ export function LeepCalendar({
 }: {
   selectedDate: Date;
   onSelect: (selectedDate: Date) => void;
-  leeps: Leep[];
+  leeps: LeepMap;
 }) {
   const start = startOfDay(new Date("2025-09-06"));
   const end = endOfDay(new Date());
@@ -28,7 +28,7 @@ export function LeepCalendar({
         components={{
           DayButton: ({ children, day, modifiers, className, ...props }) => {
             const dayStr = format(day.date, "yyyy-MM-dd");
-            const sleepTime = leeps.find((l) => l.date === dayStr)?.sleepTime;
+            const sleepTime = leeps.get(dayStr)?.sleepTime;
             const sleepType = getSleepType(sleepTime);
 
             return (

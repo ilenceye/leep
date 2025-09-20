@@ -1,18 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { CreateLeep } from "@/components/CreateLeep";
 import { LeepCalendar } from "@/components/LeepCalendar";
 import { LeepCard } from "@/components/LeepCard";
 import { UpdateLeep } from "@/components/UpdateLeep";
-import { useLeep } from "@/hooks/useLeep";
+import { useLeepStore } from "@/hooks/useLeepStore";
 import { format } from "date-fns";
 
 export default function App() {
-  const { leeps, createLeep, updateLeep } = useLeep();
+  const [loading, setLoading] = useState(true);
+  const { leeps, loadLeeps, createLeep, updateLeep } = useLeepStore();
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const selectedDateStr = format(selectedDate, "yyyy-MM-dd");
-  const currentLeep = leeps.find((l) => l.date === selectedDateStr);
+  const currentLeep = leeps.get(selectedDateStr);
+
+  useEffect(() => {
+    loadLeeps().then(() => setLoading(false));
+  }, [loadLeeps]);
+
+  if (loading) return null;
 
   return (
     <div className="mx-auto h-screen max-w-md px-4">
