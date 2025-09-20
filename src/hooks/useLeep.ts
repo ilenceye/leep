@@ -1,11 +1,6 @@
 import { useState } from "react";
 
-export type Leep = {
-  id: string;
-  date: string;
-  sleepTime: string;
-  note?: string;
-};
+import type { Leep } from "@/types";
 
 export type CreateLeepFn = ReturnType<typeof useLeep>["createLeep"];
 export type UpdateLeepFn = ReturnType<typeof useLeep>["updateLeep"];

@@ -1,5 +1,5 @@
-import type { Leep } from "@/hooks/useLeep";
 import { cn } from "@/lib/classnames";
+import type { Leep } from "@/types";
 import { Calendar, CalendarDayButton } from "@/ui/calendar";
 import { endOfDay, format, startOfDay } from "date-fns";
 

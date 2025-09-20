@@ -1,4 +1,4 @@
-import type { Leep } from "@/hooks/useLeep";
+import type { Leep } from "@/types";
 
 export function LeepCard({ leep }: { leep: Leep }) {
   return (
