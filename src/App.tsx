@@ -12,7 +12,7 @@ export default function App() {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const selectedDateStr = format(selectedDate, "yyyy-MM-dd");
-  const existingLeep = leeps.find((l) => l.date === selectedDateStr);
+  const currentLeep = leeps.find((l) => l.date === selectedDateStr);
 
   return (
     <div className="mx-auto h-screen max-w-md px-4">
@@ -25,13 +25,13 @@ export default function App() {
           selectedDate={selectedDate}
           onSelect={setSelectedDate}
         />
-        {existingLeep && (
+        {currentLeep && (
           <div className="relative mt-6">
-            <LeepCard leep={existingLeep} />
-            <UpdateLeep leep={existingLeep} onUpdate={updateLeep} />
+            <LeepCard leep={currentLeep} />
+            <UpdateLeep leep={currentLeep} onUpdate={updateLeep} />
           </div>
         )}
-        {!existingLeep && (
+        {!currentLeep && (
           <div className="mt-auto text-center">
             <CreateLeep
               selectedDateStr={selectedDateStr}
