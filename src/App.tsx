@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { CreateLeep } from "@/components/CreateLeep";
 import { LeepCalendar } from "@/components/LeepCalendar";
 import { LeepCard } from "@/components/LeepCard";
+import { Settings } from "@/components/Settings";
 import { UpdateLeep } from "@/components/UpdateLeep";
 import { useLeepStore } from "@/hooks/useLeepStore";
 import { format } from "date-fns";
@@ -25,8 +26,9 @@ export default function App() {
   return (
     <div className="mx-auto h-dvh max-w-md px-4">
       <div className="flex h-full flex-col py-4">
-        <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold">Leep</h1>
+        <div className="mb-6 flex items-center justify-between">
+          <h1 className="text-xl font-bold">Leep</h1>
+          <Settings />
         </div>
         <LeepCalendar
           leeps={leeps}
