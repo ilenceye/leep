@@ -1,23 +1,29 @@
-import { useLeepStore } from "@/hooks/useLeepStore";
+import { db } from "@/lib/db";
 import { downloadFile } from "@/lib/dom";
 import { Button } from "@/ui/button";
 import { UploadIcon } from "lucide-react";
+import { toast } from "sonner";
 
-export function ExportData() {
-  const leeps = useLeepStore((s) => s.leeps);
+export function ExportData({ onComplete }: { onComplete: () => void }) {
+  const download = async () => {
+    const leeps = await db.values();
+
+    downloadFile({
+      content: JSON.stringify({ leeps }),
+      filename: "leep.backup.json",
+      type: "application/json",
+    });
+
+    toast.success("导出成功");
+    onComplete();
+  };
 
   return (
     <Button
       variant="secondary"
       size="lg"
-      className="justify-start gap-4 text-base"
-      onClick={() => {
-        downloadFile({
-          content: JSON.stringify({ leeps: Object.fromEntries(leeps) }),
-          filename: "leep.backup.json",
-          type: "application/json",
-        });
-      }}
+      className="justify-start gap-4 rounded-b-none text-base"
+      onClick={download}
     >
       <UploadIcon /> 导出数据
     </Button>

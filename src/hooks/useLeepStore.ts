@@ -1,4 +1,4 @@
-import * as db from "idb-keyval";
+import { db } from "@/lib/db";
 import type { Leep, LeepMap } from "@/types";
 import { create } from "zustand";
 
@@ -6,10 +6,11 @@ type LeepStore = {
   leeps: LeepMap;
   loadLeeps: () => Promise<void>;
   createLeep: (leep: Leep) => Promise<void>;
+  createLeeps: (newLeeps: Leep[]) => Promise<void>;
   updateLeep: (date: string, leep: Leep) => Promise<void>;
 };
 
-export const useLeepStore = create<LeepStore>((set) => ({
+export const useLeepStore = create<LeepStore>((set, get) => ({
   leeps: new Map(),
 
   loadLeeps: async () => {
@@ -22,6 +23,12 @@ export const useLeepStore = create<LeepStore>((set) => ({
     set((state) => ({
       leeps: new Map(state.leeps).set(leep.date, leep),
     }));
+  },
+
+  createLeeps: async (newLeeps: Leep[]) => {
+    const entries = newLeeps.map((l) => [l.date, l] as [string, Leep]);
+    await db.setMany(entries);
+    await get().loadLeeps();
   },
 
   updateLeep: async (date, leep) => {

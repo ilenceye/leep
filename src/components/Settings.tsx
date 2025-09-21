@@ -1,4 +1,7 @@
+import { useState } from "react";
+
 import { ExportData } from "@/components/ExportData";
+import { ImportData } from "@/components/ImportData";
 import { Button } from "@/ui/button";
 import {
   Drawer,
@@ -11,8 +14,12 @@ import {
 import { SettingsIcon } from "lucide-react";
 
 export function Settings() {
+  const [open, setOpen] = useState(false);
+
+  const close = () => setOpen(false);
+
   return (
-    <Drawer>
+    <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button variant="ghost" size="icon" className="size-9">
           <SettingsIcon className="size-5" />
@@ -27,7 +34,8 @@ export function Settings() {
           <div className="space-y-2">
             <h2 className="text-muted-foreground text-sm">我的数据</h2>
             <div className="flex flex-col rounded-md">
-              <ExportData />
+              <ExportData onComplete={close} />
+              <ImportData onComplete={close} />
             </div>
           </div>
         </div>
