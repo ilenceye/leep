@@ -9,7 +9,8 @@ import { format } from "date-fns";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const { leeps, loadLeeps, createLeep, updateLeep } = useLeepStore();
+  const leeps = useLeepStore((s) => s.leeps);
+  const loadLeeps = useLeepStore((s) => s.loadLeeps);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const selectedDateStr = format(selectedDate, "yyyy-MM-dd");
@@ -35,15 +36,12 @@ export default function App() {
         {currentLeep && (
           <div className="relative mt-6">
             <LeepCard leep={currentLeep} />
-            <UpdateLeep leep={currentLeep} onUpdate={updateLeep} />
+            <UpdateLeep leep={currentLeep} />
           </div>
         )}
         {!currentLeep && (
           <div className="mt-auto text-center">
-            <CreateLeep
-              selectedDateStr={selectedDateStr}
-              onCreate={createLeep}
-            />
+            <CreateLeep selectedDateStr={selectedDateStr} />
           </div>
         )}
       </div>

@@ -1,4 +1,4 @@
-import type { CreateLeepFn } from "@/hooks/useLeepStore";
+import { useLeepStore } from "@/hooks/useLeepStore";
 import { Button } from "@/ui/button";
 import {
   Drawer,
@@ -14,13 +14,8 @@ import { Input } from "@/ui/input";
 import { format } from "date-fns";
 import { PlusIcon } from "lucide-react";
 
-export function CreateLeep({
-  selectedDateStr,
-  onCreate,
-}: {
-  selectedDateStr: string;
-  onCreate: CreateLeepFn;
-}) {
+export function CreateLeep({ selectedDateStr }: { selectedDateStr: string }) {
+  const updateLeep = useLeepStore((s) => s.createLeep);
   const defaultSleepTime = format(new Date(), "HH:mm");
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
@@ -28,7 +23,7 @@ export function CreateLeep({
     const formData = new FormData(e.currentTarget);
     const time = formData.get("time") as string;
     const note = (formData.get("note") as string).trim() || undefined;
-    onCreate({ date: selectedDateStr, sleepTime: time, note });
+    updateLeep({ date: selectedDateStr, sleepTime: time, note });
   };
 
   return (
