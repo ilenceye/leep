@@ -39,7 +39,7 @@ export function ImportData({ onComplete }: { onComplete: () => void }) {
       accept={[".json"]}
       onUpload={handleUpload}
     >
-      <DownloadIcon className="size-[17.5px]" /> 导入数据
+      <DownloadIcon className="-mr-[1px] size-[17px]" /> 导入数据
     </TextFilePicker>
   );
 }
