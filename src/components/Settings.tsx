@@ -34,7 +34,7 @@ export function Settings() {
           <div className="space-y-2">
             <h2 className="text-muted-foreground text-sm">我的数据</h2>
             <div className="flex flex-col rounded-md">
-              <ExportData onComplete={close} />
+              <ExportData />
               <ImportData onComplete={close} />
             </div>
           </div>

@@ -2,9 +2,8 @@ import { db } from "@/lib/db";
 import { downloadFile } from "@/lib/dom";
 import { Button } from "@/ui/button";
 import { UploadIcon } from "lucide-react";
-import { toast } from "sonner";
 
-export function ExportData({ onComplete }: { onComplete: () => void }) {
+export function ExportData() {
   const download = async () => {
     const leeps = await db.values();
 
@@ -13,9 +12,6 @@ export function ExportData({ onComplete }: { onComplete: () => void }) {
       filename: "leep.backup.json",
       type: "application/json",
     });
-
-    toast.success("导出成功");
-    onComplete();
   };
 
   return (
