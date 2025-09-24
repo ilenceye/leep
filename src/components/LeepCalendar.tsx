@@ -2,6 +2,7 @@ import { cn } from "@/lib/classnames";
 import type { LeepMap } from "@/types";
 import { Calendar, CalendarDayButton } from "@/ui/calendar";
 import { endOfDay, format, startOfDay } from "date-fns";
+import { zhCN } from "react-day-picker/locale";
 
 export function LeepCalendar({
   selectedDate,
@@ -25,6 +26,7 @@ export function LeepCalendar({
         selected={selectedDate}
         onSelect={onSelect}
         weekStartsOn={1}
+        locale={zhCN}
         components={{
           DayButton: ({ children, day, modifiers, className, ...props }) => {
             const dayStr = format(day.date, "yyyy-MM-dd");

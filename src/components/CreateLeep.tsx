@@ -35,7 +35,7 @@ export function CreateLeep({ selectedDateStr }: { selectedDateStr: string }) {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Add</DrawerTitle>
+          <DrawerTitle>新增</DrawerTitle>
           <DrawerDescription className="sr-only"></DrawerDescription>
         </DrawerHeader>
         <form onSubmit={handleSubmit}>
@@ -54,9 +54,9 @@ export function CreateLeep({ selectedDateStr }: { selectedDateStr: string }) {
             />
           </div>
           <DrawerFooter>
-            <Button>Save</Button>
+            <Button>保存</Button>
             <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button variant="outline">取消</Button>
             </DrawerClose>
           </DrawerFooter>
         </form>

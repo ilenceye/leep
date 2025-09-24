@@ -29,7 +29,7 @@ export function UpdateLeep({ leep }: { leep: Leep }) {
       <DrawerTrigger className="absolute inset-0" />
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Edit</DrawerTitle>
+          <DrawerTitle>编辑</DrawerTitle>
           <DrawerDescription className="sr-only"></DrawerDescription>
         </DrawerHeader>
         <form onSubmit={handleSubmit}>
@@ -50,10 +50,10 @@ export function UpdateLeep({ leep }: { leep: Leep }) {
           </div>
           <DrawerFooter>
             <DrawerClose asChild>
-              <Button type="submit">Save</Button>
+              <Button type="submit">保存</Button>
             </DrawerClose>
             <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button variant="outline">取消</Button>
             </DrawerClose>
           </DrawerFooter>
         </form>
