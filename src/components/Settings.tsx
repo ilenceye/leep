@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { ExportData } from "@/components/ExportData";
 import { ImportData } from "@/components/ImportData";
+import { UpdateWeekStartsOn } from "@/components/UpdateWeekStartsOn";
 import { Button } from "@/ui/button";
 import {
   Drawer,
@@ -30,6 +31,14 @@ export function Settings() {
           <DrawerTitle />
           <DrawerDescription />
         </DrawerHeader>
+        <div className="p-4">
+          <div className="space-y-2">
+            <h2 className="text-muted-foreground text-sm">常规设置</h2>
+            <div className="flex flex-col rounded-md">
+              <UpdateWeekStartsOn />
+            </div>
+          </div>
+        </div>
         <div className="p-4">
           <div className="space-y-2">
             <h2 className="text-muted-foreground text-sm">我的数据</h2>

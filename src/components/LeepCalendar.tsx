@@ -1,3 +1,4 @@
+import { useGlobalStore } from "@/hooks/useGlobalStore";
 import { cn } from "@/lib/classnames";
 import type { LeepMap } from "@/types";
 import { Calendar, CalendarDayButton } from "@/ui/calendar";
@@ -13,6 +14,7 @@ export function LeepCalendar({
   onSelect: (selectedDate: Date) => void;
   leeps: LeepMap;
 }) {
+  const weekStartsOn = useGlobalStore((s) => s.weekStartsOn);
   const start = startOfDay(new Date("2025-09-06"));
   const end = endOfDay(new Date());
 
@@ -25,7 +27,7 @@ export function LeepCalendar({
         disabled={{ before: start, after: end }}
         selected={selectedDate}
         onSelect={onSelect}
-        weekStartsOn={1}
+        weekStartsOn={weekStartsOn}
         locale={zhCN}
         components={{
           DayButton: ({ children, day, modifiers, className, ...props }) => {
