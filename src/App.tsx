@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 
 import { CreateLeep } from "@/components/CreateLeep";
 import { LeepCalendar } from "@/components/LeepCalendar";
-import { LeepCard } from "@/components/LeepCard";
+import { MonthlyLogs } from "@/components/MonthlyLogs";
 import { Settings } from "@/components/Settings";
-import { UpdateLeep } from "@/components/UpdateLeep";
 import { useLeepStore } from "@/hooks/useLeepStore";
 import { format } from "date-fns";
 
@@ -35,12 +34,8 @@ export default function App() {
           selectedDate={selectedDate}
           onSelect={setSelectedDate}
         />
-        {currentLeep && (
-          <div className="relative mt-6">
-            <LeepCard leep={currentLeep} />
-            <UpdateLeep leep={currentLeep} />
-          </div>
-        )}
+        <div className="h-6" />
+        <MonthlyLogs />
         {!currentLeep && (
           <div className="mt-auto text-center">
             <CreateLeep selectedDateStr={selectedDateStr} />

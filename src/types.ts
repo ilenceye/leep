@@ -9,3 +9,5 @@ export const LeepSchema = v.object({
 export type Leep = v.InferOutput<typeof LeepSchema>;
 
 export type LeepMap = Map<string, Leep>;
+
+export type Log = Required<Leep>;

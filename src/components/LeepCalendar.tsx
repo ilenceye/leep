@@ -15,6 +15,8 @@ export function LeepCalendar({
   leeps: LeepMap;
 }) {
   const weekStartsOn = useGlobalStore((s) => s.weekStartsOn);
+  const month = useGlobalStore((s) => s.month);
+  const setMonth = useGlobalStore((s) => s.setMonth);
   const start = startOfDay(new Date("2025-09-06"));
   const end = endOfDay(new Date());
 
@@ -27,6 +29,8 @@ export function LeepCalendar({
         disabled={{ before: start, after: end }}
         selected={selectedDate}
         onSelect={onSelect}
+        month={month}
+        onMonthChange={setMonth}
         weekStartsOn={weekStartsOn}
         locale={zhCN}
         components={{
