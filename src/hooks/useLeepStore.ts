@@ -21,9 +21,7 @@ export const useLeepStore = create<LeepStore>((set, get) => ({
 
   createLeep: async (leep) => {
     await db.set(leep.date, leep);
-    set((state) => ({
-      leeps: new Map(state.leeps).set(leep.date, leep),
-    }));
+    await get().loadLeeps();
   },
 
   createLeeps: async (newLeeps: Leep[]) => {
@@ -33,10 +31,8 @@ export const useLeepStore = create<LeepStore>((set, get) => ({
   },
 
   updateLeep: async (date, leep) => {
-    await db.set(leep.date, leep);
-    set((state) => ({
-      leeps: new Map(state.leeps).set(date, leep),
-    }));
+    await db.set(date, leep);
+    await get().loadLeeps();
   },
 }));
 
