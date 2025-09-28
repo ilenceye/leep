@@ -21,9 +21,10 @@ export function UpdateLeep({ leep }: { leep: Leep }) {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const time = formData.get("time") as string;
+    const wakeTime = formData.get("wake-time") as string;
+    const sleepTime = formData.get("sleep-time") as string;
     const note = (formData.get("note") as string).trim() || undefined;
-    updateLeep(leep.date, { ...leep, sleepTime: time, note });
+    updateLeep(leep.date, { ...leep, wakeTime, sleepTime, note });
   };
 
   return (
@@ -36,6 +37,15 @@ export function UpdateLeep({ leep }: { leep: Leep }) {
         </DrawerHeader>
         <form onSubmit={handleSubmit}>
           <div className="space-y-6 px-4">
+            <div className="space-y-2">
+              <Label className="text-secondary-foreground">起床时间</Label>
+              <Input
+                name="wake-time"
+                type="time"
+                className="text-center"
+                defaultValue={leep.wakeTime}
+              />
+            </div>
             <div className="space-y-2">
               <Label className="text-secondary-foreground">入睡时间</Label>
               <Input

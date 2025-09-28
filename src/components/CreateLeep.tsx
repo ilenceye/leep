@@ -1,4 +1,5 @@
 import { useLeepStore } from "@/hooks/useLeepStore";
+import { isSleepTime, isWakeTime } from "@/lib/utils";
 import { Button } from "@/ui/button";
 import {
   Drawer,
@@ -17,15 +18,19 @@ import { format } from "date-fns";
 import { PlusIcon } from "lucide-react";
 
 export function CreateLeep({ selectedDateStr }: { selectedDateStr: string }) {
-  const updateLeep = useLeepStore((s) => s.createLeep);
-  const defaultSleepTime = format(new Date(), "HH:mm");
+  const createLeep = useLeepStore((s) => s.createLeep);
+  const date = new Date();
+  const now = format(date, "HH:mm");
+  const defaultWakeTime = isWakeTime(date) ? now : undefined;
+  const defaultSleepTime = isSleepTime(date) ? now : undefined;
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const time = formData.get("time") as string;
+    const wakeTime = formData.get("wake-time") as string;
+    const sleepTime = formData.get("sleep-time") as string;
     const note = (formData.get("note") as string).trim() || undefined;
-    updateLeep({ date: selectedDateStr, sleepTime: time, note });
+    createLeep({ date: selectedDateStr, wakeTime, sleepTime, note });
   };
 
   return (
@@ -43,9 +48,18 @@ export function CreateLeep({ selectedDateStr }: { selectedDateStr: string }) {
         <form onSubmit={handleSubmit}>
           <div className="space-y-6 px-4">
             <div className="space-y-2">
+              <Label className="text-secondary-foreground">起床时间</Label>
+              <Input
+                name="wake-time"
+                type="time"
+                className="text-center"
+                defaultValue={defaultWakeTime}
+              />
+            </div>
+            <div className="space-y-2">
               <Label className="text-secondary-foreground">入睡时间</Label>
               <Input
-                name="time"
+                name="sleep-time"
                 type="time"
                 className="text-center"
                 defaultValue={defaultSleepTime}
