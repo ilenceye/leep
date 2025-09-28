@@ -11,6 +11,8 @@ import {
   DrawerTrigger,
 } from "@/ui/drawer";
 import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
+import { Textarea } from "@/ui/textarea";
 import { format } from "date-fns";
 import { PlusIcon } from "lucide-react";
 
@@ -39,19 +41,25 @@ export function CreateLeep({ selectedDateStr }: { selectedDateStr: string }) {
           <DrawerDescription className="sr-only"></DrawerDescription>
         </DrawerHeader>
         <form onSubmit={handleSubmit}>
-          <div className="space-y-4 px-4">
-            <Input
-              name="time"
-              type="time"
-              className="text-center"
-              defaultValue={defaultSleepTime}
-            />
-            <Input
-              name="note"
-              type="text"
-              placeholder="Note..."
-              autoComplete="off"
-            />
+          <div className="space-y-6 px-4">
+            <div className="space-y-2">
+              <Label className="text-secondary-foreground">入睡时间</Label>
+              <Input
+                name="time"
+                type="time"
+                className="text-center"
+                defaultValue={defaultSleepTime}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-secondary-foreground">备注</Label>
+              <Textarea
+                name="note"
+                placeholder="输入备注"
+                autoComplete="off"
+                className="resize-none"
+              />
+            </div>
           </div>
           <DrawerFooter>
             <Button>保存</Button>

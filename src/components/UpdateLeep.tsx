@@ -12,6 +12,8 @@ import {
   DrawerTrigger,
 } from "@/ui/drawer";
 import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
+import { Textarea } from "@/ui/textarea";
 
 export function UpdateLeep({ leep }: { leep: Leep }) {
   const updateLeep = useLeepStore((s) => s.updateLeep);
@@ -33,20 +35,26 @@ export function UpdateLeep({ leep }: { leep: Leep }) {
           <DrawerDescription className="sr-only"></DrawerDescription>
         </DrawerHeader>
         <form onSubmit={handleSubmit}>
-          <div className="space-y-4 px-4">
-            <Input
-              name="time"
-              type="time"
-              className="text-center"
-              defaultValue={leep.sleepTime}
-            />
-            <Input
-              name="note"
-              type="text"
-              placeholder="Note..."
-              autoComplete="off"
-              defaultValue={leep.note}
-            />
+          <div className="space-y-6 px-4">
+            <div className="space-y-2">
+              <Label className="text-secondary-foreground">入睡时间</Label>
+              <Input
+                name="time"
+                type="time"
+                className="text-center"
+                defaultValue={leep.sleepTime}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-secondary-foreground">备注</Label>
+              <Textarea
+                name="note"
+                placeholder="输入备注"
+                autoComplete="off"
+                defaultValue={leep.note}
+                className="resize-none"
+              />
+            </div>
           </div>
           <DrawerFooter>
             <DrawerClose asChild>
