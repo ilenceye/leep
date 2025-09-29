@@ -49,7 +49,7 @@ export function UpdateLeep({ leep }: { leep: Leep }) {
             <div className="space-y-2">
               <Label className="text-secondary-foreground">入睡时间</Label>
               <Input
-                name="time"
+                name="sleep-time"
                 type="time"
                 className="text-center"
                 defaultValue={leep.sleepTime}
