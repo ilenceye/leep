@@ -1,3 +1,4 @@
+import { UpdateLeep } from "@/components/UpdateLeep";
 import { useGlobalStore } from "@/hooks/useGlobalStore";
 import { cn } from "@/lib/classnames";
 import type { LeepMap } from "@/types";
@@ -36,32 +37,36 @@ export function LeepCalendar({
         components={{
           DayButton: ({ children, day, modifiers, className, ...props }) => {
             const dayStr = format(day.date, "yyyy-MM-dd");
-            const sleepTime = leeps.get(dayStr)?.sleepTime;
+            const leep = leeps.get(dayStr);
+            const sleepTime = leep?.sleepTime;
             const sleepType = getSleepType(sleepTime);
 
             return (
-              <CalendarDayButton
-                day={day}
-                modifiers={modifiers}
-                className={cn(className, "grid grid-rows-3 p-1.5", {
-                  "bg-green-200": sleepType === "early",
-                  "bg-yellow-200": sleepType === "late",
-                  "bg-red-200": sleepType === "night",
-                  "bg-muted": !modifiers.disabled && sleepType === undefined,
-                })}
-                {...props}
-              >
-                <span
-                  className={cn("row-span-2", modifiers.today && "font-bold")}
+              <>
+                <CalendarDayButton
+                  day={day}
+                  modifiers={modifiers}
+                  className={cn(className, "grid grid-rows-3 p-1.5", {
+                    "bg-green-200": sleepType === "early",
+                    "bg-yellow-200": sleepType === "late",
+                    "bg-red-200": sleepType === "night",
+                    "bg-muted": !modifiers.disabled && sleepType === undefined,
+                  })}
+                  {...props}
                 >
-                  {children}
-                </span>
-                {!modifiers.disabled && (
-                  <span className="text-xs text-gray-600">
-                    {sleepTime ?? "--"}
+                  <span
+                    className={cn("row-span-2", modifiers.today && "font-bold")}
+                  >
+                    {children}
                   </span>
-                )}
-              </CalendarDayButton>
+                  {!modifiers.disabled && (
+                    <span className="text-xs text-gray-600">
+                      {sleepTime ?? "--"}
+                    </span>
+                  )}
+                </CalendarDayButton>
+                {leep && <UpdateLeep leep={leep} />}
+              </>
             );
           },
         }}
