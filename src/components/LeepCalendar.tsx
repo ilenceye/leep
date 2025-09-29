@@ -33,6 +33,7 @@ export function LeepCalendar({
         month={month}
         onMonthChange={setMonth}
         weekStartsOn={weekStartsOn}
+        showOutsideDays={false}
         locale={zhCN}
         components={{
           DayButton: ({ children, day, modifiers, className, ...props }) => {
