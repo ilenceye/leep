@@ -13,7 +13,6 @@ import {
 } from "@/ui/drawer";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
-import { Textarea } from "@/ui/textarea";
 import { format } from "date-fns";
 import { PlusIcon } from "lucide-react";
 
@@ -29,8 +28,7 @@ export function CreateLeep({ selectedDateStr }: { selectedDateStr: string }) {
     const formData = new FormData(e.currentTarget);
     const wakeTime = formData.get("wake-time") as string;
     const sleepTime = formData.get("sleep-time") as string;
-    const note = (formData.get("note") as string).trim() || undefined;
-    createLeep({ date: selectedDateStr, wakeTime, sleepTime, note });
+    createLeep({ date: selectedDateStr, wakeTime, sleepTime });
   };
 
   return (
@@ -63,15 +61,6 @@ export function CreateLeep({ selectedDateStr }: { selectedDateStr: string }) {
                 type="time"
                 className="text-center"
                 defaultValue={defaultSleepTime}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-secondary-foreground">备注</Label>
-              <Textarea
-                name="note"
-                placeholder="输入备注"
-                autoComplete="off"
-                className="resize-none"
               />
             </div>
           </div>

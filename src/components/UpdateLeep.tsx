@@ -13,7 +13,6 @@ import {
 } from "@/ui/drawer";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
-import { Textarea } from "@/ui/textarea";
 
 export function UpdateLeep({ leep }: { leep: Leep }) {
   const updateLeep = useLeepStore((s) => s.updateLeep);
@@ -23,8 +22,7 @@ export function UpdateLeep({ leep }: { leep: Leep }) {
     const formData = new FormData(e.currentTarget);
     const wakeTime = formData.get("wake-time") as string;
     const sleepTime = formData.get("sleep-time") as string;
-    const note = (formData.get("note") as string).trim() || undefined;
-    updateLeep(leep.date, { ...leep, wakeTime, sleepTime, note });
+    updateLeep(leep.date, { ...leep, wakeTime, sleepTime });
   };
 
   return (
@@ -53,16 +51,6 @@ export function UpdateLeep({ leep }: { leep: Leep }) {
                 type="time"
                 className="text-center"
                 defaultValue={leep.sleepTime}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-secondary-foreground">备注</Label>
-              <Textarea
-                name="note"
-                placeholder="输入备注"
-                autoComplete="off"
-                defaultValue={leep.note}
-                className="resize-none"
               />
             </div>
           </div>

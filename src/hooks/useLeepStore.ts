@@ -1,6 +1,5 @@
 import { db } from "@/lib/db";
-import type { Leep, LeepMap, Log } from "@/types";
-import { isSameMonth } from "date-fns";
+import type { Leep, LeepMap } from "@/types";
 import { create } from "zustand";
 
 type LeepStore = {
@@ -35,11 +34,3 @@ export const useLeepStore = create<LeepStore>((set, get) => ({
     await get().loadLeeps();
   },
 }));
-
-export const useMonthlyLogs = (month: Date): Log[] => {
-  const leeps = useLeepStore((s) => s.leeps);
-  const logs = Array.from(leeps.values())
-    .filter((l): l is Log => Boolean(l.note) && isSameMonth(month, l.date))
-    .reverse();
-  return logs;
-};

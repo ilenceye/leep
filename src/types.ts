@@ -4,7 +4,6 @@ export const LeepSchema = v.object({
   date: v.string(),
   wakeTime: v.optional(v.string()),
   sleepTime: v.optional(v.string()),
-  note: v.optional(v.string()),
 });
 
 export type Leep = v.InferOutput<typeof LeepSchema>;
