@@ -14,6 +14,30 @@
       "type": "image/png"
     }
   ],
+  "shortcuts": [
+    {
+      "name": "记录入睡时间",
+      "url": "/create-leep-shortcut?type=sleep",
+      "icons": [
+        {
+          "src": "/icons/moon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "记录起床时间",
+      "url": "/create-leep-shortcut?type=wake",
+      "icons": [
+        {
+          "src": "/icons/sun-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "display": "standalone"
