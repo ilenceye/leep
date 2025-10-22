@@ -29,13 +29,14 @@ export function CreateLeepShortcut() {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    const newLeep = todayLeep ?? { date: today };
 
     if (type === "sleep") {
       const sleepTime = formData.get("sleep-time") as string;
-      await createLeep({ date: today, sleepTime });
+      await createLeep({ ...newLeep, sleepTime });
     } else {
       const wakeTime = formData.get("wake-time") as string;
-      await createLeep({ date: today, wakeTime });
+      await createLeep({ ...newLeep, wakeTime });
     }
 
     window.close();
