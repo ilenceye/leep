@@ -6,17 +6,15 @@ import { Label } from "@/ui/label";
 import { format } from "date-fns";
 import { useSearchParams } from "wouter";
 
-export function CreateLeepShortcut() {
-  const [searchParams] = useSearchParams();
-  const type = searchParams.get("type");
-
+const useDefaultTimes = () => {
   const date = new Date();
   const today = format(date, "yyyy-MM-dd");
   const now = format(date, "HH:mm");
-  const todayLeep = useLeepByDay(today);
+  const savedTodayLeep = useLeepByDay(today);
+  const todayLeep = savedTodayLeep ?? { date: today };
 
   const resolveTime = (type: "wake" | "sleep") => {
-    const saved = type === "wake" ? todayLeep?.wakeTime : todayLeep?.sleepTime;
+    const saved = type === "wake" ? todayLeep.wakeTime : todayLeep.sleepTime;
     const shouldUseNow = type === "wake" ? isWakeTime(date) : isSleepTime(date);
     return saved ?? (shouldUseNow ? now : undefined);
   };
@@ -24,19 +22,27 @@ export function CreateLeepShortcut() {
   const defaultWakeTime = resolveTime("wake");
   const defaultSleepTime = resolveTime("sleep");
 
+  return { todayLeep, defaultWakeTime, defaultSleepTime };
+};
+
+export function CreateLeepShortcut() {
+  const [searchParams] = useSearchParams();
+  const type = searchParams.get("type");
+
+  const { todayLeep, defaultWakeTime, defaultSleepTime } = useDefaultTimes();
+
   const createLeep = useLeepStore((s) => s.createLeep);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const newLeep = todayLeep ?? { date: today };
 
     if (type === "sleep") {
       const sleepTime = formData.get("sleep-time") as string;
-      await createLeep({ ...newLeep, sleepTime });
+      await createLeep({ ...todayLeep, sleepTime });
     } else {
       const wakeTime = formData.get("wake-time") as string;
-      await createLeep({ ...newLeep, wakeTime });
+      await createLeep({ ...todayLeep, wakeTime });
     }
 
     window.close();
