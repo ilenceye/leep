@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { db } from "@/lib/db";
 import type { Leep, LeepMap } from "@/types";
 import { create } from "zustand";
@@ -34,3 +36,20 @@ export const useLeepStore = create<LeepStore>((set, get) => ({
     await get().loadLeeps();
   },
 }));
+
+/**
+ *
+ * @param day 格式为 "yyyy-MM-dd"
+ */
+export const useLeepByDay = (day: string) => {
+  const [leep, setLeep] = useState<Leep>();
+
+  useEffect(() => {
+    (async () => {
+      const l = await db.get<Leep>(day);
+      setLeep(l);
+    })();
+  }, [day]);
+
+  return leep;
+};

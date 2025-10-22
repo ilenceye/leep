@@ -1,4 +1,4 @@
-import { useLeepStore } from "@/hooks/useLeepStore";
+import { useLeepByDay, useLeepStore } from "@/hooks/useLeepStore";
 import { isSleepTime, isWakeTime } from "@/lib/utils";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
@@ -7,17 +7,24 @@ import { format } from "date-fns";
 import { useSearchParams } from "wouter";
 
 export function CreateLeepShortcut() {
-  const createLeep = useLeepStore((s) => s.createLeep);
-
   const [searchParams] = useSearchParams();
   const type = searchParams.get("type");
 
   const date = new Date();
-  const now = format(date, "HH:mm");
-  const defaultWakeTime = isWakeTime(date) ? now : undefined;
-  const defaultSleepTime = isSleepTime(date) ? now : undefined;
-
   const today = format(date, "yyyy-MM-dd");
+  const now = format(date, "HH:mm");
+  const todayLeep = useLeepByDay(today);
+
+  const resolveTime = (type: "wake" | "sleep") => {
+    const saved = type === "wake" ? todayLeep?.wakeTime : todayLeep?.sleepTime;
+    const shouldUseNow = type === "wake" ? isWakeTime(date) : isSleepTime(date);
+    return saved ?? (shouldUseNow ? now : undefined);
+  };
+
+  const defaultWakeTime = resolveTime("wake");
+  const defaultSleepTime = resolveTime("sleep");
+
+  const createLeep = useLeepStore((s) => s.createLeep);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
