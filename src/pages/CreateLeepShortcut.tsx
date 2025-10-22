@@ -19,16 +19,16 @@ export function CreateLeepShortcut() {
 
   const today = format(date, "yyyy-MM-dd");
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
     if (type === "sleep") {
       const sleepTime = formData.get("sleep-time") as string;
-      createLeep({ date: today, sleepTime });
+      await createLeep({ date: today, sleepTime });
     } else {
       const wakeTime = formData.get("wake-time") as string;
-      createLeep({ date: today, wakeTime });
+      await createLeep({ date: today, wakeTime });
     }
 
     window.close();
