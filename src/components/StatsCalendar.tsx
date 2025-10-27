@@ -13,8 +13,6 @@ export function StatsCalendar({
   sleepStats: Map<string, number>;
 }) {
   const weekStartsOn = useGlobalStore((s) => s.weekStartsOn);
-  const month = useGlobalStore((s) => s.month);
-  const setMonth = useGlobalStore((s) => s.setMonth);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const start = startOfDay(new Date("2025-09-06"));
@@ -29,8 +27,6 @@ export function StatsCalendar({
         disabled={{ before: start, after: end }}
         selected={selectedDate}
         onSelect={setSelectedDate}
-        month={month}
-        onMonthChange={setMonth}
         weekStartsOn={weekStartsOn}
         showOutsideDays={false}
         locale={zhCN}

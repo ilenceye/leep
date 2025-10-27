@@ -10,8 +10,6 @@ type WeekStartsOn = 0 | 1;
 type GlobalStore = {
   weekStartsOn: WeekStartsOn;
   setWeekStartsOn: (value: WeekStartsOn) => void;
-  month: Date;
-  setMonth: (month: Date) => void;
 };
 
 export const useGlobalStore = create<GlobalStore>()(
@@ -19,8 +17,6 @@ export const useGlobalStore = create<GlobalStore>()(
     (set) => ({
       weekStartsOn: 1,
       setWeekStartsOn: (value: WeekStartsOn) => set({ weekStartsOn: value }),
-      month: new Date(),
-      setMonth: (month: Date) => set({ month }),
     }),
     {
       name: "global-store",
