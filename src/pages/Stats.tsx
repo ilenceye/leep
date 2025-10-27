@@ -1,5 +1,6 @@
-import { useLeepData } from "@/hooks/useLeepData";
 import { StatsCalendar } from "@/components/StatsCalendar";
+import { StatsCalendarLegend } from "@/components/StatsCalendarLegend";
+import { useLeepData } from "@/hooks/useLeepData";
 import { calculateSleepDuration } from "@/lib/sleepCalculations";
 
 export function Stats() {
@@ -19,8 +20,9 @@ export function Stats() {
   });
 
   return (
-    <>
+    <div className="flex h-full flex-col">
       <StatsCalendar sleepStats={sleepStats} />
-    </>
+      <StatsCalendarLegend />
+    </div>
   );
 }
