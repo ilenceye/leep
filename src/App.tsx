@@ -11,7 +11,7 @@ export default function App() {
   const showLayout = location !== ROUTES.SHORTCUTS;
 
   return (
-    <div className="mx-auto h-dvh max-w-md px-4">
+    <div className="mx-auto my-4 max-w-md px-4">
       {showLayout && (
         <Layout>
           <Route path={ROUTES.HOME} component={Home} />

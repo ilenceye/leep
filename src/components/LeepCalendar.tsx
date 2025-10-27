@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { UpdateLeep } from "@/components/UpdateLeep";
 import { useGlobalStore } from "@/hooks/useGlobalStore";
 import { cn } from "@/lib/classnames";
@@ -6,18 +8,12 @@ import { Calendar, CalendarDayButton } from "@/ui/calendar";
 import { endOfDay, format, startOfDay } from "date-fns";
 import { zhCN } from "react-day-picker/locale";
 
-export function LeepCalendar({
-  selectedDate,
-  onSelect,
-  leeps,
-}: {
-  selectedDate: Date;
-  onSelect: (selectedDate: Date) => void;
-  leeps: LeepMap;
-}) {
+export function LeepCalendar({ leeps }: { leeps: LeepMap }) {
   const weekStartsOn = useGlobalStore((s) => s.weekStartsOn);
   const month = useGlobalStore((s) => s.month);
   const setMonth = useGlobalStore((s) => s.setMonth);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   const start = startOfDay(new Date("2025-09-06"));
   const end = endOfDay(new Date());
 
@@ -29,7 +25,7 @@ export function LeepCalendar({
         required
         disabled={{ before: start, after: end }}
         selected={selectedDate}
-        onSelect={onSelect}
+        onSelect={setSelectedDate}
         month={month}
         onMonthChange={setMonth}
         weekStartsOn={weekStartsOn}
@@ -38,7 +34,7 @@ export function LeepCalendar({
         components={{
           DayButton: ({ children, day, modifiers, className, ...props }) => {
             const dayStr = format(day.date, "yyyy-MM-dd");
-            const leep = leeps.get(dayStr);
+            const leep = leeps.get(dayStr) ?? { date: dayStr };
             const sleepTime = leep?.sleepTime;
             const sleepType = getSleepType(sleepTime);
 
@@ -66,7 +62,7 @@ export function LeepCalendar({
                     </span>
                   )}
                 </CalendarDayButton>
-                {leep && <UpdateLeep leep={leep} />}
+                {!modifiers.disabled && <UpdateLeep leep={leep} />}
               </>
             );
           },
